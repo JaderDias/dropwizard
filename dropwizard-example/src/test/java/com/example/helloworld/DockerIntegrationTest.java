@@ -105,7 +105,7 @@ public class DockerIntegrationTest {
 
     @Test
     void testPostPerson() {
-        final Person person = new Person("Dr. IntegrationTest", "Chief Wizard", 1525);
+        final Person person = new Person(1, "Dr. IntegrationTest", "Chief Wizard", 1525);
         final Person newPerson = postPerson(person);
         assertThat(newPerson.getFullName()).isEqualTo(person.getFullName());
         assertThat(newPerson.getJobTitle()).isEqualTo(person.getJobTitle());
@@ -114,7 +114,7 @@ public class DockerIntegrationTest {
     @ParameterizedTest
     @ValueSource(strings={"view_freemarker", "view_mustache"})
     void testRenderingPerson(String viewName) {
-        final Person person = new Person("Dr. IntegrationTest", "Chief Wizard", 1525);
+        final Person person = new Person(1, "Dr. IntegrationTest", "Chief Wizard", 1525);
         final Person newPerson = postPerson(person);
         final String url = "http://localhost:" + APP.getLocalPort() + "/people/" + newPerson.getId() + "/" + viewName;
         Response response = APP.client().target(url).request().get();

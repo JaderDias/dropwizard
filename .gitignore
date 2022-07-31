@@ -1,3 +1,5 @@
+rocksdb-data
+
 # Maven
 target/
 dependency-reduced-pom.xml

@@ -42,8 +42,7 @@ class IntegrationTest {
             new ResourceConfigurationSourceProvider(),
             config("database.url", () -> "jdbc:h2:" + tempDir.resolve("database.h2")),
             config("logging.appenders[1].currentLogFilename", CURRENT_LOG),
-            config("logging.appenders[1].archivedLogFilenamePattern", ARCHIVED_LOG)
-    );
+            config("logging.appenders[1].archivedLogFilenamePattern", ARCHIVED_LOG));
 
     @BeforeAll
     public static void migrateDb() throws Exception {
@@ -54,9 +53,9 @@ class IntegrationTest {
     void testHelloWorld() {
         final Optional<String> name = Optional.of("Dr. IntegrationTest");
         final Saying saying = APP.client().target("http://localhost:" + APP.getLocalPort() + "/hello-world")
-            .queryParam("name", name.get())
-            .request()
-            .get(Saying.class);
+                .queryParam("name", name.get())
+                .request()
+                .get(Saying.class);
         assertThat(saying.getContent()).isEqualTo(APP.getConfiguration().buildTemplate().render(name));
     }
 
@@ -65,43 +64,44 @@ class IntegrationTest {
         @Test
         void validDateParameter() {
             final String date = APP.client().target("http://localhost:" + APP.getLocalPort() + "/hello-world/date")
-                .queryParam("date", "2022-01-20")
-                .request()
-                .get(String.class);
+                    .queryParam("date", "2022-01-20")
+                    .request()
+                    .get(String.class);
             assertThat(date).isEqualTo("2022-01-20");
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {"null", "abc", "0"})
+        @ValueSource(strings = { "null", "abc", "0" })
         void invalidDateParameter(String value) {
             assertThatExceptionOfType(BadRequestException.class)
-                .isThrownBy(() -> APP.client().target("http://localhost:" + APP.getLocalPort() + "/hello-world/date")
-                    .queryParam("date", value)
-                    .request()
-                    .get(String.class));
+                    .isThrownBy(
+                            () -> APP.client().target("http://localhost:" + APP.getLocalPort() + "/hello-world/date")
+                                    .queryParam("date", value)
+                                    .request()
+                                    .get(String.class));
         }
 
         @Test
         void noDateParameter() {
             final String date = APP.client().target("http://localhost:" + APP.getLocalPort() + "/hello-world/date")
-                .request()
-                .get(String.class);
+                    .request()
+                    .get(String.class);
             assertThat(date).isEmpty();
         }
     }
 
     @Test
     void testPostPerson() {
-        final Person person = new Person("Dr. IntegrationTest", "Chief Wizard", 1525);
+        final Person person = new Person(1, "Dr. IntegrationTest", "Chief Wizard", 1525);
         final Person newPerson = postPerson(person);
         assertThat(newPerson.getFullName()).isEqualTo(person.getFullName());
         assertThat(newPerson.getJobTitle()).isEqualTo(person.getJobTitle());
     }
 
     @ParameterizedTest
-    @ValueSource(strings={"view_freemarker", "view_mustache"})
+    @ValueSource(strings = { "view_freemarker", "view_mustache" })
     void testRenderingPerson(String viewName) {
-        final Person person = new Person("Dr. IntegrationTest", "Chief Wizard", 1525);
+        final Person person = new Person(1, "Dr. IntegrationTest", "Chief Wizard", 1525);
         final Person newPerson = postPerson(person);
         final String url = "http://localhost:" + APP.getLocalPort() + "/people/" + newPerson.getId() + "/" + viewName;
         Response response = APP.client().target(url).request().get();
@@ -121,16 +121,17 @@ class IntegrationTest {
         // fail (and not write to a log file). This test ensures not only that the
         // log file exists, but also contains the log line that jetty prints on startup
         assertThat(new File(CURRENT_LOG.get()))
-            .exists()
-            .content()
-            .contains("0.0.0.0:" + APP.getLocalPort(), "Starting hello-world", "Started application", "Started admin")
-            .doesNotContain("Exception", "ERROR", "FATAL");
+                .exists()
+                .content()
+                .contains("0.0.0.0:" + APP.getLocalPort(), "Starting hello-world", "Started application",
+                        "Started admin")
+                .doesNotContain("Exception", "ERROR", "FATAL");
     }
 
     @Test
     void healthCheckShouldSucceed() {
-        final Response healthCheckResponse =
-                APP.client().target("http://localhost:" + APP.getLocalPort() + "/health-check")
+        final Response healthCheckResponse = APP.client()
+                .target("http://localhost:" + APP.getLocalPort() + "/health-check")
                 .request()
                 .get();
 

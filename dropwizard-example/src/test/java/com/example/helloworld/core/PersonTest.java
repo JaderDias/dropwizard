@@ -15,18 +15,18 @@ class PersonTest {
 
     @Test
     void serializesToJSON() throws Exception {
-        final Person person = new Person("Luther Blissett", "Lead Tester", 1902);
+        final Person person = new Person(1, "Luther Blissett", "Lead Tester", 1902);
 
         final String expected = MAPPER.writeValueAsString(
-            MAPPER.readValue(getClass().getResource("/person.json"), Person.class));
+                MAPPER.readValue(getClass().getResource("/person.json"), Person.class));
 
         assertThat(MAPPER.writeValueAsString(person)).isEqualTo(expected);
     }
 
     @Test
     public void deserializesFromJSON() throws Exception {
-        final Person person = new Person("Luther Blissett", "Lead Tester", 1902);
+        final Person person = new Person(1, "Luther Blissett", "Lead Tester", 1902);
         assertThat(MAPPER.readValue(getClass().getResource("/person.json"), Person.class))
-            .isEqualTo(person);
+                .isEqualTo(person);
     }
 }

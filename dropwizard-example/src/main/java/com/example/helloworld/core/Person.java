@@ -9,15 +9,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "people")
-@NamedQuery(
-    name = "com.example.helloworld.core.Person.findAll",
-    query = "SELECT p FROM Person p"
-)
-public class Person {
+@NamedQuery(name = "com.example.helloworld.core.Person.findAll", query = "SELECT p FROM Person p")
+public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -36,7 +35,8 @@ public class Person {
     public Person() {
     }
 
-    public Person(String fullName, String jobTitle, int yearBorn) {
+    public Person(long id, String fullName, String jobTitle, int yearBorn) {
+        this.id = id;
         this.fullName = fullName;
         this.jobTitle = jobTitle;
         this.yearBorn = yearBorn;

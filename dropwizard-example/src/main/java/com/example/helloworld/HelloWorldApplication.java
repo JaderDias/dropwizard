@@ -38,13 +38,13 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
         new HelloWorldApplication().run(args);
     }
 
-    private final HibernateBundle<HelloWorldConfiguration> hibernateBundle =
-        new HibernateBundle<HelloWorldConfiguration>(Person.class) {
-            @Override
-            public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration) {
-                return configuration.getDataSourceFactory();
-            }
-        };
+    private final HibernateBundle<HelloWorldConfiguration> hibernateBundle = new HibernateBundle<HelloWorldConfiguration>(
+            Person.class) {
+        @Override
+        public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration) {
+            return configuration.getDataSourceFactory();
+        }
+    };
 
     @Override
     public String getName() {
@@ -57,9 +57,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
         bootstrap.setConfigurationSourceProvider(
                 new SubstitutingSourceProvider(
                         bootstrap.getConfigurationSourceProvider(),
-                        new EnvironmentVariableSubstitutor(false)
-                )
-        );
+                        new EnvironmentVariableSubstitutor(false)));
 
         bootstrap.addCommand(new RenderCommand());
         bootstrap.addBundle(new AssetsBundle());
@@ -80,7 +78,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 
     @Override
     public void run(HelloWorldConfiguration configuration, Environment environment) {
-        final PersonDAO dao = new PersonDAO(hibernateBundle.getSessionFactory());
+        final PersonDAO dao = new PersonDAO();
         final Template template = configuration.buildTemplate();
 
         environment.healthChecks().register("template", new TemplateHealthCheck(template));
