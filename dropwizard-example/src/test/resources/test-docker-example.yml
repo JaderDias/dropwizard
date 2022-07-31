@@ -1,14 +1,6 @@
 template: Hello, %s!
 defaultName: Stranger
 
-database:
-  driverClass: com.mysql.cj.jdbc.Driver
-  properties:
-    hibernate.dialect: org.hibernate.dialect.MySQL57Dialect
-#  user: sa
-#  password: sa
-#  url: jdbc:h2:./target/test-example
-
 server:
   applicationConnectors:
     - type: http
@@ -36,9 +28,6 @@ health:
   healthChecks:
     - name: deadlocks
       type: alive
-    - name: hibernate
-      type: ready
-      critical: true
     - name: template
       type: ready
       critical: true

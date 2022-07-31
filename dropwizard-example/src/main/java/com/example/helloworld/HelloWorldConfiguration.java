@@ -3,7 +3,6 @@ package com.example.helloworld;
 import com.example.helloworld.core.Template;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
-import io.dropwizard.db.DataSourceFactory;
 import javax.validation.constraints.NotEmpty;
 
 import javax.validation.Valid;
@@ -17,10 +16,6 @@ public class HelloWorldConfiguration extends Configuration {
 
     @NotEmpty
     private String defaultName = "Stranger";
-
-    @Valid
-    @NotNull
-    private DataSourceFactory database = new DataSourceFactory();
 
     @NotNull
     private Map<String, Map<String, String>> viewRendererConfiguration = Collections.emptyMap();
@@ -47,16 +42,6 @@ public class HelloWorldConfiguration extends Configuration {
 
     public Template buildTemplate() {
         return new Template(template, defaultName);
-    }
-
-    @JsonProperty("database")
-    public DataSourceFactory getDataSourceFactory() {
-        return database;
-    }
-
-    @JsonProperty("database")
-    public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
-        this.database = dataSourceFactory;
     }
 
     @JsonProperty("viewRendererConfiguration")

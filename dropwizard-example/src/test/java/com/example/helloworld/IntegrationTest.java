@@ -40,7 +40,6 @@ class IntegrationTest {
     static final DropwizardAppExtension<HelloWorldConfiguration> APP = new DropwizardAppExtension<>(
             HelloWorldApplication.class, CONFIG,
             new ResourceConfigurationSourceProvider(),
-            config("database.url", () -> "jdbc:h2:" + tempDir.resolve("database.h2")),
             config("logging.appenders[1].currentLogFilename", CURRENT_LOG),
             config("logging.appenders[1].archivedLogFilenamePattern", ARCHIVED_LOG));
 

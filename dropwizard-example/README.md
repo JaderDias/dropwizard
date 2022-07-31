@@ -15,9 +15,6 @@ This database example is comprised of the following classes:
 
 * All the JPQL statements for use in the `PersonDAO` are located in the `Person` class.
 
-* `migrations.xml` illustrates the usage of `dropwizard-migrations` which can create your database prior to running
-your application for the first time.
-
 * The `PersonResource` and `PeopleResource` are the REST resource which use the PersonDAO to retrieve data from the database, note the injection
 of the PersonDAO in their constructors.
 

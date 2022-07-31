@@ -2,7 +2,6 @@ package com.example.helloworld.resources;
 
 import com.example.helloworld.core.Person;
 import com.example.helloworld.db.PersonDAO;
-import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.validation.Valid;
 import javax.ws.rs.GET;
@@ -23,13 +22,11 @@ public class PeopleResource {
     }
 
     @POST
-    @UnitOfWork
     public Person createPerson(@Valid Person person) {
         return peopleDAO.create(person);
     }
 
     @GET
-    @UnitOfWork
     public List<Person> listPeople() {
         return peopleDAO.findAll();
     }

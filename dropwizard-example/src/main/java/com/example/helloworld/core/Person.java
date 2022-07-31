@@ -1,33 +1,18 @@
 package com.example.helloworld.core;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "people")
-@NamedQuery(name = "com.example.helloworld.core.Person.findAll", query = "SELECT p FROM Person p")
 public class Person implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "fullName", nullable = false)
     private String fullName;
 
-    @Column(name = "jobTitle", nullable = false)
     private String jobTitle;
 
-    @Column(name = "yearBorn")
     @Min(value = 0)
     @Max(value = 9999)
     private int yearBorn;
